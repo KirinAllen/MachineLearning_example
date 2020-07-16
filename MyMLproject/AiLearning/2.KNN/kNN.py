@@ -8,7 +8,8 @@ GitHub: https://github.com/apachecn/AiLearning
 '''
 
 # 导入科学计算包numpy和运算符模块operator
-from numpy import *
+# from numpy import *
+import numpy as np
 import operator
 import os
 from collections import Counter
@@ -27,7 +28,7 @@ def createDataSet():
     import kNN
     group, labels = kNN.createDataSet()
     """
-    group = array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
+    group = np.array([[1.0, 1.1], [1.0, 1.0], [0, 0], [0, 0.1]])
     labels = ['A', 'A', 'B', 'B']
     return group, labels
 
@@ -69,7 +70,7 @@ def classify0(inX, dataSet, labels, k):
         [1, 2, 3, 1, 2, 3],
         [1, 2, 3, 1, 2, 3]])
     """
-    diffMat = tile(inX, (dataSetSize, 1)) - dataSet
+    diffMat = np.tile(inX, (dataSetSize, 1)) - dataSet
     """
     欧氏距离:  点到点之间的距离
        第一行:  同一个点 到 dataSet 的第一个点的距离。
@@ -176,7 +177,7 @@ def file2matrix(filename):
     numberOfLines = len(fr.readlines())
     # 生成对应的空矩阵
     # 例如: zeros(2，3)就是生成一个 2*3 的矩阵，各个位置上全是 0 
-    returnMat = zeros((numberOfLines, 3))  # prepare matrix to return
+    returnMat = np.zeros((numberOfLines, 3))  # prepare matrix to return
     classLabelVector = []  # prepare labels return
     fr = open(filename, 'r')
     index = 0
@@ -215,12 +216,12 @@ def autoNorm(dataSet):
     # 极差
     ranges = maxVals - minVals
     # -------第一种实现方式---start-------------------------
-    normDataSet = zeros(shape(dataSet))
+    normDataSet = np.zeros(np.shape(dataSet))
     m = dataSet.shape[0]
     # 生成与最小值之差组成的矩阵
-    normDataSet = dataSet - tile(minVals, (m, 1))
+    normDataSet = dataSet - np.tile(minVals, (m, 1))
     # 将最小值之差除以范围组成矩阵
-    normDataSet = normDataSet / tile(ranges, (m, 1))  # element wise divide
+    normDataSet = normDataSet / np.tile(ranges, (m, 1))  # element wise divide
     # -------第一种实现方式---end---------------------------------------------
     
     # # -------第二种实现方式---start---------------------------------------
@@ -271,7 +272,7 @@ def img2vector(filename):
     该函数将图像转换为向量: 该函数创建 1 * 1024 的NumPy数组，然后打开给定的文件，
     循环读出文件的前32行，并将每行的头32个字符值存储在NumPy数组中，最后返回数组。
     """
-    returnVect = zeros((1, 1024))
+    returnVect = np.zeros((1, 1024))
     fr = open(filename, 'r')
     for i in range(32):
         lineStr = fr.readline()
@@ -293,7 +294,7 @@ def handwritingClassTest():
     hwLabels = []
     trainingFileList = os.listdir("data/2.KNN/trainingDigits") # load the training set
     m = len(trainingFileList)
-    trainingMat = zeros((m, 1024))
+    trainingMat = np.zeros((m, 1024))
     # hwLabels存储0～9对应的index位置， trainingMat存放的每个位置对应的图片向量
     for i in range(m):
         fileNameStr = trainingFileList[i]
@@ -320,6 +321,6 @@ def handwritingClassTest():
 
 
 if __name__ == '__main__':
-    # test1()
-    # datingClassTest()
+    test1()
+    datingClassTest()
     handwritingClassTest()
